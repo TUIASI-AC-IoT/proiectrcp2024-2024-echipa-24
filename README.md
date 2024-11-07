@@ -1,5 +1,5 @@
 # Proiect RC
-**SNMP (Simple Networking Managment Protocol) - Documentatie**
+**SNMP (Simple Networking Management Protocol) - Documentatie**
 
 **Protocolul SNMP**
 
