@@ -49,7 +49,7 @@ Actiuni posibile:
 - GetNextRequest
 - SetRequest(Schimbare unitati de masura si Setare praguri alerte)
 
-![image](https://github.com/user-attachments/assets/7018ed98-e0e8-429a-881e-800fa79f6386)
+![image](https://github.com/user-attachments/assets/ad5f4b09-f895-412d-90a4-5623dab30061)
 
 
 **Bibliografie**
