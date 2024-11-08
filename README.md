@@ -11,6 +11,9 @@
 
 ![image](https://github.com/user-attachments/assets/185be542-d627-4285-b817-b8a97ee7b483)
 
+  *Diagrama cu formatul generic pentru OID*
+
+
 **Despre agent**
 
 Agentul este o aplicatie care ruleaza pe dispozitivul monitorizat, avand urmatoarele roluri:
@@ -35,6 +38,7 @@ Un manager este o aplicatie responsabil de comunicarea cu agentii SNMP implement
 
 ![image](https://github.com/user-attachments/assets/f8ff02ca-e83e-4e27-ba7c-d553865cf4cd)
 
+
 **Implementare**
 
 Ne dorim realizarea a doua aplicatii: Manager si Agent, care pot comunica intre ele folosind protocolul SNMP. Se va folosi modulul socket, fara a interactiona in alt fel cu stiva de comunicatii.
@@ -51,7 +55,7 @@ Actiuni posibile:
 
 ![image](https://github.com/user-attachments/assets/ad5f4b09-f895-412d-90a4-5623dab30061)
 
-Atat resursele monitorizate cat si unitatile de masura si pragurile de alerte pentru fiecare masura vor fi stocate in `MIB` si vor avea cate un `OID` astfel :
+Atat resursele monitorizate cat si unitatile de masura si pragurile de alerte pentru fiecare resursa vor fi stocate in `MIB` si vor avea cate un `OID` astfel :
 - `Temperatura CPU` : 1.3.6.1.2.1.1.1
 - `Utilizare CPU` : 1.3.6.1.2.1.1.2
 - `Temperatura GPU` : 1.3.6.1.2.1.2.1
@@ -64,6 +68,9 @@ Atat resursele monitorizate cat si unitatile de masura si pragurile de alerte pe
 - `Prag de alerta temperatura GPU` : 1.3.6.1.2.2.2.2.1
 - `Prag de alerta utilizare GPU` : 1.3.6.1.2.2.2.2.2
 - `Prag de alerta memorie utilizata` : 1.3.6.1.2.2.2.3
+
+![OID2 drawio](https://github.com/user-attachments/assets/0befa480-c427-4027-92e6-bf8bb384f8a2)
+  *Diagrama cu OID-urile custom folosite in proiect*
 
 
 **Bibliografie**
