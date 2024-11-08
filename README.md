@@ -51,6 +51,20 @@ Actiuni posibile:
 
 ![image](https://github.com/user-attachments/assets/ad5f4b09-f895-412d-90a4-5623dab30061)
 
+Atat resursele monitorizate cat si unitatile de masura si pragurile de alerte pentru fiecare masura vor fi stocate in `MIB` si vor avea cate un `OID` astfel :
+- `Temperatura CPU` : 1.3.6.1.2.1.1.1
+- `Utilizare CPU` : 1.3.6.1.2.1.1.2
+- `Temperatura GPU` : 1.3.6.1.2.1.2.1
+- `Utilizare GPU` : 1.3.6.1.2.1.2.2
+- `Memorie utilizata` : 1.3.6.1.2.1.3
+- `Unitate de masura temperatura CPU` : 1.3.6.1.2.2.1.1
+- `Unitate de masura temperatura GPU` : 1.3.6.1.2.2.1.2
+- `Prag de alerta temperatura CPU` : 1.3.6.1.2.2.2.1.1
+- `Prag de alerta utilizare CPU` : 1.3.6.1.2.2.2.1.2
+- `Prag de alerta temperatura GPU` : 1.3.6.1.2.2.2.2.1
+- `Prag de alerta utilizare GPU` : 1.3.6.1.2.2.2.2.2
+- `Prag de alerta memorie utilizata` : 1.3.6.1.2.2.2.3
+
 
 **Bibliografie**
 - https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
