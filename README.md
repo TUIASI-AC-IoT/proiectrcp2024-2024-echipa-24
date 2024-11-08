@@ -7,7 +7,7 @@
 
 - In modul sau de operare de baza, SNMP este un protocol de Tip Cerere/Raspuns. Procesul care initiaza cererile si controleaza comunicarea se numeste Manager, iar procesul responsabil pentru furnizarea raspunsurilor se numeste Agent. Transmiterea pachetelor se realizeaza prin UDP(User Datagram Protocol).
 
-- `MIB` (Management Information Base) este o componenta esentiala a modelului de management al retelei SNMP, definind formatul schimbului de informatii. `MIB`-urile sunt baze de date folosite de agenti in care se afla obiectele gestionate, numite `OID` (Object Identifiers). Acestea sunt identificate prin siruri de numere ierarhice care sunt asezate intr-o structura arborescenta.
+- `MIB` (Management Information Base) este o componenta esentiala a SNMP. `MIB`-urile sunt baze de date in care se afla obiectele gestionate. Acestea sunt identificate prin `OID`, siruri de numere care definesc o structura erarhica(arborescenta).
 
 ![image](https://github.com/user-attachments/assets/185be542-d627-4285-b817-b8a97ee7b483)
 
