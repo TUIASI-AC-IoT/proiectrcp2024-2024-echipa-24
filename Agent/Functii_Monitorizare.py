@@ -4,7 +4,6 @@ import wmi
 import GPUtil
 
 
-
 def get_cpu_temp(temp)->float:
     sum = 0
     k = 0
@@ -14,6 +13,8 @@ def get_cpu_temp(temp)->float:
         if sensor.SensorType==u'Temperature':
             sum+=sensor.Value
             k+=1
+    if k==0:
+        raise Exception("OpenHardwareMonitor")
     temperature = sum/k
     if temp=="Celsius":
         return temperature
@@ -24,7 +25,7 @@ def get_cpu_temp(temp)->float:
 
 
 def get_cpu_util()->int :
-    return int(psutil.cpu_percent(interval=0))
+    return int(psutil.cpu_percent(interval=1))
 
 
 def get_gpu_temp(temp)->float:
