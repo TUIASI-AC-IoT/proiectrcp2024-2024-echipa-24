@@ -24,7 +24,6 @@ class MIB:
             #case _ :
             #Mesaj_Eroare = "Introducere gresita a datelor" ???
 
-
     def Set_Resource(OID:str, value):
         match OID :
             case '1.3.6.1.2.2.1.1' :
