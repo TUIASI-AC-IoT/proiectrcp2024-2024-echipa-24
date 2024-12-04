@@ -1,17 +1,28 @@
-def encode_length(length:int) -> bytes:
+
+def encode_length(length: int) -> bytes:
     if length < 128:
         return bytes([length])
     else:
-        length_as_bytes = bytes([length])
-        return bytes([0x80 | len(length_as_bytes)]) + length_as_bytes
+        encoded_length = bytearray()
+        while length > 0:
+            encoded_length.insert(0, length % 256)
+            length //= 256
 
-def encode_integer(value:int) -> bytes:
-    encoded_value = bytes([value])
-    if encoded_value[0] & 0x80:
-        encoded_value = b'\x00' + encoded_value
-    return bytes([0x02]) + encode_length(len(encoded_value)) + encoded_value
+        return bytes([0x80 | len(encoded_length)]) + bytes(encoded_length)
 
-def encode_octet_string(value:str) -> bytes:
+def encode_integer(value: int) -> bytes:
+    encoded_value = bytearray()
+    while value > 0:
+        encoded_value.insert(0, value % 256)
+        value //= 256
+    if encoded_value and (encoded_value[0] & 0x80):
+        encoded_value.insert(0, 0x00)
+    return bytes([0x02]) + encode_length(len(encoded_value)) + bytes(encoded_value)
+
+def encode_byte_string(value:bytes) -> bytes:
+    return bytes([0x04]) + encode_length(len(value)) + value
+
+def encode_string(value:str) -> bytes:
     value_bytes = value.encode(encoding='ascii')
     return bytes([0x04]) + encode_length(len(value)) + value_bytes
 
@@ -21,6 +32,10 @@ def encode_oid(oid:list[int]) -> bytes:
     for sub_id in oid[2:]:
         encoded_oid += bytes([sub_id])
     return bytes([0x06]) + encode_length(len(encoded_oid)) + encoded_oid
+
+def encode_ip(ip_address:str) -> bytes:
+    ip_as_int = map(int, ip_address.split("."))
+    return encode_byte_string(bytes(ip_as_int))
 
 def encode_sequence(encoded_elements:list[bytes]) -> bytes:
     concatenated = b''.join(encoded_elements)
