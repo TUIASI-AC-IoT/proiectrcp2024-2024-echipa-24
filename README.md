@@ -72,10 +72,87 @@ Atat resursele monitorizate cat si unitatile de masura si pragurile de alerte pe
 ![OID2 drawio](https://github.com/user-attachments/assets/0befa480-c427-4027-92e6-bf8bb384f8a2)
   *Diagrama cu OID-urile custom folosite in proiect*
 
+---
+# Codificarea ASN.1 cu Regula BER (Basic Encoding Rules)
 
+Codificarea **ASN.1** (Abstract Syntax Notation One) este un sistem standardizat pentru reprezentarea datelor intr-un format independent de limbajul de programare. Regula de codificare **BER** (Basic Encoding Rules) defineste cum sa codifici aceste date pentru a fi transmise sau stocate. Este folosita in diverse protocoale de retea, inclusiv **SNMP** (Simple Network Management Protocol).
+
+## Principiul TLV (Tag-Length-Value)
+
+Fiecare element ASN.1 este reprezentat de trei componente:
+
+1. **T - Tag**: Identifica tipul datelor.
+2. **L - Length**: Reprezinta lungimea datelor.
+3. **V - Value**: Reprezinta datele efective.
+
+---
+
+## Detalii despre structura TLV
+
+### 1. **T - Tag (Tipul datelor)**:
+   - Este un octet (sau mai multi octeti) care identifica tipul si clasa datelor.
+   - Tipurile sunt definite prin **numerice** standardizate:
+     - **`0x02`**: INTEGER
+     - **`0x04`**: OCTET STRING
+     - **`0x06`**: OBJECT IDENTIFIER (OID)
+     - **`0x30`**: SEQUENCE (pentru grupuri de elemente structurate)
+     - **`0x05`**: NULL (pentru valori nule)
+
+### 2. **L - Length (Lungimea datelor)**:
+   - **Lungime scurta**: Daca lungimea este mai mica de 128, este codificata intr-un singur octet (`L`).
+   - **Lungime lunga**: Daca lungimea este mai mare de 127, primul octet specifica numarul de octeti care urmeaza pentru lungime (`0x80 | numar_de_octeti`).
+
+### 3. **V - Value (Valoarea efectiva a datelor)**:
+   - Datele efective sunt codificate in functie de tipul de data specificat de tag. 
+
+---
+
+## Tipuri de Date Utilizate in SNMP
+
+In cadrul SNMP, mai multe tipuri de date ASN.1 sunt utilizate pentru a reprezenta diferitele informatii si structuri din mesajele SNMP:
+
+### 1. **INTEGER (`0x02`)**
+   - **Codificare**: Valoarea este codificata in complement fata de doi.
+
+### 2. **OCTET STRING (`0x04`)**
+   - Reprezinta o secventa de octeti, folosita frecvent pentru a stoca siruri de caractere sau date brute.
+   - Exemple: "public", "password", date binare.
+   - **Codificare**: Sirul de octeti este direct codificat in secventa de valori.
+
+### 3. **OBJECT IDENTIFIER (OID) (`0x06`)**
+   - Reprezinta identificatori ierarhici, care sunt utilizati pentru a desemna obiecte dintr-un arbore de obiecte (de exemplu, `1.3.6.1.2`).
+   - **Codificare**:
+     - Primul octet este calculat ca `40 * primul_sub_id + al_doilea_sub_id`.
+     - Urmatoarele octeti reprezinta sub-ID-urile, fiecare codificat in baza 128 (cu MSB = 1 pentru continuare).
+
+### 4. **SEQUENCE (`0x30`)**
+   - Reprezinta un grup de elemente structurate. In SNMP, se foloseste pentru a reprezenta grupuri de date, cum ar fi perechi OID-valoare.
+   - **Codificare**: Este o colectie de elemente, fiecare codificata separat, urmata de o codificare a secventei.
+
+### 5. **NULL (`0x05`)**
+   - **Codificare**: Este codificata ca `0x05 0x00` (Tag-ul `0x05` si lungimea 0).
+
+---
+# Structura pachetelor SNMP
+
+![image](https://github.com/user-attachments/assets/187ed143-000e-4015-9fc5-d3f425ed27b9)
+               Structurea mesaj SNMP
+
+![image](https://github.com/user-attachments/assets/9056b138-57fe-4346-8e36-b69a24b81cf4)
+Structura PDU(Protocol Data Unit) GetRequest si SetRequest
+
+![image](https://github.com/user-attachments/assets/54391e64-1409-4bf6-bbe5-78f457837cac)
+Structura PDU(Protocol Data Unit) Trap
+
+sursa imagini: **https://cdpstudio.com/manual/cdp/snmpio/about-snmp.html**
+
+
+                        
 **Bibliografie**
+- https://datatracker.ietf.org/doc/html/rfc1157
 - https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
 - https://www.manageengine.com/network-monitoring/what-is-snmp.html
 - http://www.tcpipguide.com/free/t_SNMPProtocolBasicRequestResponseInformationPollUsi.htm
 - https://www.satel.com/wp-content/uploads/2017/08/13.-SATELLAR-and-SNMP-Get-SNMP-Set.pdf
 - https://www.site24x7.com/network/what-is-snmp.html
+  
