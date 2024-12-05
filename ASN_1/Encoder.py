@@ -35,7 +35,8 @@ def encode_oid(oid:list[int]) -> bytes:
 
 def encode_ip(ip_address:str) -> bytes:
     ip_as_int = map(int, ip_address.split("."))
-    return encode_byte_string(bytes(ip_as_int))
+    ip_as_bytes = bytes(ip_as_int)
+    return bytes([0x40]) + encode_length(len(ip_as_bytes)) + ip_as_bytes
 
 def encode_sequence(encoded_elements:list[bytes]) -> bytes:
     concatenated = b''.join(encoded_elements)
