@@ -1,4 +1,4 @@
-import Encoder
+import ASN_1.Encoder as Encoder
 
 class SNMPPacketBuilder:
     def __init__(self, community:str, version:int):

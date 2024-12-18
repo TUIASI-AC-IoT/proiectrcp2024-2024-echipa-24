@@ -1,5 +1,4 @@
-import Decoder
-from ASN_1.Decoder import decode_integer
+import ASN_1.Decoder as Decoder
 
 
 def decode_snmp_set_get(data: bytes) -> dict:

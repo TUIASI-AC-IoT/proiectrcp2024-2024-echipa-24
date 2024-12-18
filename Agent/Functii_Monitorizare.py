@@ -43,7 +43,7 @@ def get_gpu_util()->int :
         return int((gpu.load*100))
 
 def get_mem_util()->int :
-    return int((psutil.virtual_memory()[0]-psutil.virtual_memory()[1])/2**30)
+    return int((psutil.virtual_memory()[0]-psutil.virtual_memory()[1])/2**20)
 
 
 def convert_temp(temp ,unit1,unit2) :
