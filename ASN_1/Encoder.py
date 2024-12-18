@@ -19,11 +19,11 @@ def encode_integer(value: int) -> bytes:
         encoded_value.insert(0, 0x00)
     return bytes([0x02]) + encode_length(len(encoded_value)) + bytes(encoded_value)
 
-def encode_byte_string(value:bytes) -> bytes:
-    return bytes([0x04]) + encode_length(len(value)) + value
+#def encode_byte_string(value:bytes) -> bytes:
+#    return bytes([0x04]) + encode_length(len(value)) + value
 
 def encode_string(value:str) -> bytes:
-    value_bytes = value.encode(encoding='ascii')
+    value_bytes = value.encode('ascii')
     return bytes([0x04]) + encode_length(len(value)) + value_bytes
 
 def encode_oid(oid:list[int]) -> bytes:

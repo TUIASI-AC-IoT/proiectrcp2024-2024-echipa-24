@@ -71,7 +71,7 @@ class SNMPPacketBuilder:
 
     def build_set_request(self, request_id, oid, value):
         version_encoded = Encoder.encode_integer(self.version)
-        community_encoded = Encoder.encode_string(self.community)
+        community_encoded = Encoder.encode_string("public")
         request_id_encoded = Encoder.encode_integer(request_id)
         error_status_encoded = Encoder.encode_integer(0)
         error_index_encoded = Encoder.encode_integer(0)
@@ -116,21 +116,17 @@ class SNMPPacketBuilder:
         return snmp_message
 
 if __name__ == "__main__":
-    packet_builder = SNMPPacketBuilder("public", 0)
+    packet_builder = SNMPPacketBuilder("public", 1)
 
     community = "public"
     enterprise_oid = [ 1,3,6,1,2,1,1,1]
     agent_address = "192.168.0.1"
     timestamp = 12345  # 123.45 secunde
 
-    trap_packet = packet_builder.build_trap(enterprise_oid,"Eroare temperaturaaaaaaaaa",agent_address,timestamp)
-    print("SNMP TRAP (hex):")
-    print(trap_packet.hex())
-
-    get_next = packet_builder.build_get_next_request(request_id=99)
-    print("SNMP getNextRequest (hex):")
-    print(get_next.hex())
 
     get_packet = packet_builder.build_get_request(request_id=100, oid=enterprise_oid)
-    print("SNMP getRequest (hex):")
-    print(get_packet.hex())
+    print("SNMP getRequest :")
+    print(get_packet)
+    get_trap = packet_builder.build_trap(enterprise_oid, "Hello World", agent_address, timestamp)
+    print("SNMP getTrap :")
+    print(get_trap)
