@@ -48,28 +48,15 @@ def decode_snmp_set_get(data: bytes) -> dict:
 
     return snmp_message
 
-# def decode_snmp_trap(data: bytes) -> dict:
-#     length, rest = Decoder.decode_length(data[1:])
-#     version, rest = Decoder.decode_integer(rest)
-#     community , rest = Decoder.decode_string(rest)
-#
-#     pdu_type = rest[0]
-#     rest = rest[1:]
-#     length_pdu, rest = Decoder.decode_length(rest)
-#
 
 def decode_snmp_trap(data: bytes) -> dict:
-    # Decode the overall message structure
     length, rest = Decoder.decode_length(data[1:])
     version, rest = Decoder.decode_integer(rest)
     community, rest = Decoder.decode_string(rest)
 
     pdu_type = rest[0]
-    if pdu_type != 0xA4:  # Ensure it's a Trap PDU
-        raise ValueError("Data is not a valid SNMP Trap PDU.")
-    rest = rest[1:]  # Skip the PDU type
+    rest = rest[1:]
 
-    # Decode the Trap PDU fields
     length_pdu, rest = Decoder.decode_length(rest)
     enterprise_oid, rest = Decoder.decode_oid(rest)
     agent_address , rest = Decoder.decode_ip(rest)
@@ -77,10 +64,8 @@ def decode_snmp_trap(data: bytes) -> dict:
     specific_trap, rest = Decoder.decode_integer(rest)
     timestamp, rest = Decoder.decode_integer(rest)
 
-    # Decode variable bindings
     variable_bindings, _ = Decoder.decode_sequence(rest)
 
-    # Construct the SNMP Trap message
     snmp_trap_message = {
         'version': version,
         'community': community,
@@ -94,7 +79,6 @@ def decode_snmp_trap(data: bytes) -> dict:
     }
 
     value = 0
-    # Decode each variable binding (OID and value)
     for binding in variable_bindings:
         length, rest = Decoder.decode_length(binding[1:])
         binding_oid, rest = Decoder.decode_oid(rest)
@@ -106,7 +90,6 @@ def decode_snmp_trap(data: bytes) -> dict:
             value, rest = Decoder.decode_string(rest)
         elif value_type == 0x40:  # IP Address
             value, rest = Decoder.decode_ip(rest)
-        # Add more types as necessary
 
         snmp_trap_message['variable_bindings'].append({
             'oid': binding_oid,
