@@ -7,6 +7,9 @@ class MIB:
     GPU_UTIL_OID = [1, 3, 6, 1, 2, 1, 2, 2]
     MEM_UTIL_OID = [1, 3, 6, 1, 2, 1, 3]
 
+    CPU_UNIT_OID = [1, 3, 6, 1, 2, 2, 1, 1]
+    GPU_UNIT_OID = [1, 3, 6, 1, 2, 2, 1, 2]
+
     ALERT_TEMP_CPU_OID = [1, 3, 6, 1, 2, 2, 2, 1, 1]
     ALERT_UTIL_CPU_OID = [1, 3, 6, 1, 2, 2, 2, 1, 2]
     ALERT_TEMP_GPU_OID = [1, 3, 6, 1, 2, 2, 2, 2, 1]
@@ -51,4 +54,10 @@ class MIB:
             case MIB.ALERT_UTIL_MEM_OID:
                 if type(value) == int:
                     MIB.alert_util_mem = value
+            case MIB.CPU_TEMP_OID:
+                if type(value) == str:
+                    MIB.cpu_temp = value
+            case MIB.GPU_TEMP_OID:
+                if type(value) == str:
+                    MIB.gpu_temp = value
 
