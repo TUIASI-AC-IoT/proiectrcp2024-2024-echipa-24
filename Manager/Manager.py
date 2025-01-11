@@ -1,6 +1,8 @@
+import queue
 import tkinter as tk
 from tkinter import ttk
 from Oid_config import OID_OPTIONS
+from Trap_receiver import start_trap_thread
 
 agents = {}
 
@@ -58,9 +60,11 @@ def view_oid_value(agent_ip, oid):
 def update_oid_value(agent_ip, oid, value):
     print(f"Updating OID {oid} on agent {agent_ip} to value '{value}'.")
 
+#inceput definite gui
 root = tk.Tk()
 root.title("OID Management Tool")
 root.geometry("800x900")
+
 
 oid_frame = ttk.Frame(root, padding=10)
 oid_frame.pack(side="top", fill="both", expand=False)
@@ -74,17 +78,23 @@ for oid, name in OID_OPTIONS.items():
     oid_listbox.insert("end", f"{oid} - {name}\n")
 oid_listbox.config(state="disabled")
 
+
+
 trap_frame = ttk.Frame(root, padding=10)
 trap_frame.pack(side="top", fill="both", expand=False)
-
 ttk.Label(trap_frame, text="Received traps", font=("Arial", 12, "bold")).pack(pady=5)
-
 trap_listbox = tk.Text(trap_frame, height=10, wrap="none")
 trap_listbox.pack(fill="both", expand=True, padx=10, pady=5)
+trap_listbox.config(state="disabled")
+
+start_trap_thread(trap_listbox)
+
 
 for oid, name in OID_OPTIONS.items():
     trap_listbox.insert("end", f"{oid} - {name}\n")
 trap_listbox.config(state="disabled")
+
+
 
 agent_tabs = ttk.Notebook(root)
 agent_tabs.pack(fill="both", expand=True, padx=10, pady=10)
@@ -101,4 +111,7 @@ agent_entry.pack(side="left", padx=5)
 add_agent_button = ttk.Button(add_agent_frame, text="Add Agent", command=add_agent)
 add_agent_button.pack(side="left", padx=5)
 
+
 root.mainloop()
+
+
