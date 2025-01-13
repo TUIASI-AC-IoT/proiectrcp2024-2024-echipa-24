@@ -11,4 +11,5 @@ OID_OPTIONS = {
     "ALERT_TEMP_GPU_OID": [1, 3, 6, 1, 2, 2, 2, 2, 1],
     "ALERT_UTIL_GPU_OID": [1, 3, 6, 1, 2, 2, 2, 2, 2],
     "ALERT_UTIL_MEM_OID": [1, 3, 6, 1, 2, 2, 2, 3]
+
 }

@@ -1,10 +1,17 @@
 import queue
 import tkinter as tk
 from tkinter import ttk
+
+from View_value import start_get_thread
 from Oid_config import OID_OPTIONS
 from Trap_receiver import start_trap_thread
 
+AGENT_PORT = 161
+MANAGER_PORT = 162
+manager_ip = '0.0.0.0'
+
 agents = {}
+request_id = 1
 
 def add_agent():
     agent_ip = agent_var.get().strip()
@@ -18,16 +25,6 @@ def add_agent():
     else:
         print("Agent IP cannot be empty.")
 
-def delete_agent(agent_ip):
-    if agent_ip in agents:
-        del agents[agent_ip]
-        for tab_id in agent_tabs.tabs():
-            if agent_tabs.tab(tab_id, "text") == agent_ip:
-                agent_tabs.forget(tab_id)
-                break
-        print(f"Agent {agent_ip} deleted.")
-    else:
-        print(f"Agent {agent_ip} does not exist.")
 
 def create_agent_tab(agent_ip):
     tab = ttk.Frame(agent_tabs)
@@ -45,17 +42,32 @@ def create_agent_tab(agent_ip):
     value_entry = ttk.Entry(tab, textvariable=value_var, width=40)
     value_entry.pack(pady=5)
 
-    view_button = ttk.Button(tab, text="View Value", command=lambda: view_oid_value(agent_ip, oid_var.get()))
+    view_button = ttk.Button(tab, text="View Value", command=lambda: view_oid_value(agent_ip, oid_var.get(),value_var))
     view_button.pack(pady=5)
 
     update_button = ttk.Button(tab, text="Update Value", command=lambda: update_oid_value(agent_ip, oid_var.get(), value_var.get()))
     update_button.pack(pady=5)
 
-    update_button = ttk.Button(tab, text="Delete Agent", command=lambda: delete_agent(agent_ip))
-    update_button.pack(pady=5)
+    unit_frame = ttk.Frame(root, padding=10)
+    unit_frame.pack(side="top", fill="x")
 
-def view_oid_value(agent_ip, oid):
-    print(f"Viewing value for OID {oid} on agent {agent_ip}.")
+    cpu_unit_var = tk.StringVar(value="Celsius")
+    gpt_unit_var = tk.StringVar(value="Celsius")
+
+    ttk.Label(unit_frame, text="Change CPU Temp Unit:").pack(side="left", padx=5)
+    cpu_unit_dropdown = ttk.OptionMenu(unit_frame, cpu_unit_var, "Celsius", "Celsius", "Fahrenheit", "Kelvin")
+    cpu_unit_dropdown.pack(side="left", padx=5)
+
+    ttk.Label(unit_frame, text="Change GPT Temp Unit:").pack(side="left", padx=5)
+    gpt_unit_dropdown = ttk.OptionMenu(unit_frame, gpt_unit_var, "Celsius", "Celsius", "Fahrenheit", "Kelvin")
+    gpt_unit_dropdown.pack(side="left", padx=5)
+
+
+def view_oid_value(agent_ip, oid,value_var):
+    global request_id
+    oid = [int(x) for x in oid.split(',')]
+    start_get_thread(value_var,manager_ip,agent_ip, oid, request_id)
+    request_id += 1
 
 def update_oid_value(agent_ip, oid, value):
     print(f"Updating OID {oid} on agent {agent_ip} to value '{value}'.")

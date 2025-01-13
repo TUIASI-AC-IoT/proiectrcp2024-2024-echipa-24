@@ -11,6 +11,8 @@ def encode_length(length: int) -> bytes:
         return bytes([0x80 | len(encoded_length)]) + bytes(encoded_length)
 
 def encode_integer(value: int) -> bytes:
+    if value == 0:
+        return bytes([0x02 , 0x01 , 0x00])
     encoded_value = bytearray()
     while value > 0:
         encoded_value.insert(0, value % 256)
@@ -19,8 +21,10 @@ def encode_integer(value: int) -> bytes:
         encoded_value.insert(0, 0x00)
     return bytes([0x02]) + encode_length(len(encoded_value)) + bytes(encoded_value)
 
-#def encode_byte_string(value:bytes) -> bytes:
-#    return bytes([0x04]) + encode_length(len(value)) + value
+#DE REPARAT
+def encode_time_stamp(value: int) -> bytes:
+    encoded = encode_integer(value)
+    encoded[0] = 0x13
 
 def encode_string(value:str) -> bytes:
     value_bytes = value.encode('ascii')

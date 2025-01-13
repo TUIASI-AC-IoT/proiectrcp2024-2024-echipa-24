@@ -1,3 +1,6 @@
+from email.policy import default
+from unittest import case
+
 import Functii_Monitorizare as fm
 
 class MIB:
@@ -36,6 +39,21 @@ class MIB:
                 return fm.get_gpu_util()
             case MIB.MEM_UTIL_OID:
                 return fm.get_mem_util()
+            case MIB.ALERT_TEMP_CPU_OID:
+                return MIB.alert_temp_cpu
+            case MIB.ALERT_UTIL_CPU_OID:
+                return MIB.alert_util_cpu
+            case MIB.ALERT_TEMP_GPU_OID:
+                return MIB.alert_temp_gpu
+            case MIB.ALERT_UTIL_GPU_OID:
+                return MIB.alert_util_gpu
+            case MIB.ALERT_UTIL_MEM_OID:
+                return MIB.alert_util_mem
+            case MIB.CPU_UNIT_OID:
+                return MIB.cpu_temp
+            case MIB.GPU_UNIT_OID:
+                return MIB.gpu_temp
+        return "NO ITEM WITH THIS OID"
 
     def Set_Resource(OID: list[int], value):
         match OID:
@@ -54,10 +72,12 @@ class MIB:
             case MIB.ALERT_UTIL_MEM_OID:
                 if type(value) == int:
                     MIB.alert_util_mem = value
-            case MIB.CPU_TEMP_OID:
+            case MIB.CPU_UNIT_OID:
                 if type(value) == str:
+                    MIB.alert_temp_cpu = fm.convert_temp(MIB.alert_temp_cpu, MIB.cpu_temp,value)
                     MIB.cpu_temp = value
-            case MIB.GPU_TEMP_OID:
+            case MIB.GPU_UNIT_OID:
                 if type(value) == str:
+                    MIB.alert_temp_gpu = fm.convert_temp(MIB.alert_temp_gpu, MIB.gpu_temp,value)
                     MIB.gpu_temp = value
 

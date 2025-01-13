@@ -3,14 +3,15 @@ import time
 import socket
 import ASN_1.SNMPPacketBuilder
 
+PORT = 162
+
 def sendTrap(manager_ip:str,mesaj:str ,oid:list[int], agent_ip,time_stamp) -> None:
     builder = ASN_1.SNMPPacketBuilder.SNMPPacketBuilder(community='public',version=1)
     trap_packet = builder.build_trap(oid,mesaj,agent_ip,time_stamp)
 
-    manager_port = 162
-
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    sock.sendto(trap_packet, (manager_ip, manager_port))
+    sock.bind((agent_ip, PORT))
+    sock.sendto(trap_packet, (manager_ip, PORT))
 
 def checker(manager_ip,agent_ip):
     begin_time = int(time.time()*100)

@@ -1,7 +1,7 @@
 import ASN_1.Encoder as Encoder
 
 class SNMPPacketBuilder:
-    def __init__(self, community:str, version:int):
+    def __init__(self, community:str='public', version:int=1):
         self.community = community
         self.version = version
 
