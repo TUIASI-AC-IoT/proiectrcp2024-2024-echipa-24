@@ -148,6 +148,7 @@ sursa imagini: **https://cdpstudio.com/manual/cdp/snmpio/about-snmp.html**
 
 Porturile folosite:
     - **`161`**: Trimiterea si primirea pachetelor de tip `GetRequest`,`GetNextRequest`,`SetRequest`.
+   
     - **`162`**: Trimiterea si primirea Trap-urilor.
 
 Interfata realizata cu TKinter
