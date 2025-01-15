@@ -25,6 +25,26 @@ def handle_get_request(packet):
     return response_packet
 
 
+def handle_set_request(packet):
+    # Decode the received SNMP request
+    decoded_packet = decode_snmp_set_get(packet)
+
+    # Extract the OID and request_id
+    oid = decoded_packet['variable_bindings'][0]['oid']
+    request_id = decoded_packet['request_id']
+    value = decoded_packet['value']
+
+    # Check the OID and prepare a response
+    MIB.Set_Resource(oid, value)
+    response_value = MIB.Get_Resource(oid)
+
+    # Build the SNMP response packet
+    packet_builder = SNMPPacketBuilder()
+    response_packet = packet_builder.build_get_response(request_id, oid, response_value)
+
+    return response_packet
+
+
 def receive_snmp_request(agent_ip):
     """ Function to receive SNMP requests. """
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -64,7 +84,14 @@ def start_agent(agent_ip):
             continue  # Skip if there was an error receiving the request
 
         # Handle the request and generate a response
-        response_packet = handle_get_request(packet)
+        decoded_packet = decode_snmp_set_get(packet)
+        pdu_type=decoded_packet['pdu_type']
+        if pdu_type == 160 :
+            response_packet = handle_get_request(packet)
+        if pdu_type == 161:
+            response_packet = handle_get_next_request(packet)
+        if pdu_type == 163:
+            response_packet = handle_set_request(packet)
 
         # Send the response back to the manager
         send_snmp_response(response_packet, addr)
