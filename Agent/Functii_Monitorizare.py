@@ -50,22 +50,22 @@ def convert_temp(temp ,unit1,unit2) :
     if unit1 == 'Celsius' :
         match unit2 :
             case 'Fahrenheit' :
-                return temp*9/5+32
+                return int(temp*9/5+32)
             case "Kelvin" :
-                return temp+273.15
+                return int(temp+273.15)
 
     elif unit1 == 'Fahrenheit' :
         match unit2 :
             case 'Celsius' :
-                return (temp-32)/1.8
+                return int((temp-32)/1.8)
             case "Kelvin" :
-                return (temp+459.67)/5*9
+                return int((temp+459.67)/5*9)
 
     elif unit1 == 'Kelvin' :
         match unit2 :
             case 'Celsius' :
-                return temp-273.15
+                return int(temp-273.15)
             case "Fahrenheit" :
-                return temp*9/5-459.67
+                return int(temp*9/5-459.67)
 
     return temp

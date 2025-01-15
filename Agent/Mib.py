@@ -1,6 +1,4 @@
-from email.policy import default
-from unittest import case
-
+from ASN_1.Oid_config import oids
 import Functii_Monitorizare as fm
 
 class MIB:
@@ -21,28 +19,11 @@ class MIB:
 
     cpu_temp = "Celsius"
     gpu_temp = "Celsius"
-    alert_temp_cpu = 0
-    alert_temp_gpu = 0
-    alert_util_cpu = 0
-    alert_util_gpu = 0
-    alert_util_mem = 0
-
-    oids = {
-        "CPU_TEMP_OID": [1, 3, 6, 1, 2, 1, 1, 1],
-        "CPU_UTIL_OID": [1, 3, 6, 1, 2, 1, 1, 2],
-        "GPU_TEMP_OID": [1, 3, 6, 1, 2, 1, 2, 1],
-        "GPU_UTIL_OID": [1, 3, 6, 1, 2, 1, 2, 2],
-        "MEM_UTIL_OID": [1, 3, 6, 1, 2, 1, 3],
-
-        "CPU_UNIT_OID": [1, 3, 6, 1, 2, 2, 1, 1],
-        "GPU_UNIT_OID": [1, 3, 6, 1, 2, 2, 1, 2],
-
-        "ALERT_TEMP_CPU_OID": [1, 3, 6, 1, 2, 2, 2, 1, 1],
-        "ALERT_UTIL_CPU_OID": [1, 3, 6, 1, 2, 2, 2, 1, 2],
-        "ALERT_TEMP_GPU_OID": [1, 3, 6, 1, 2, 2, 2, 2, 1],
-        "ALERT_UTIL_GPU_OID": [1, 3, 6, 1, 2, 2, 2, 2, 2],
-        "ALERT_UTIL_MEM_OID": [1, 3, 6, 1, 2, 2, 2, 3]
-    }
+    alert_temp_cpu = 99
+    alert_temp_gpu = 99
+    alert_util_cpu = 99
+    alert_util_gpu = 99
+    alert_util_mem = 15000
 
     def Get_Resource(OID: list[int]):
         match OID:
@@ -73,28 +54,31 @@ class MIB:
         return "NO ITEM WITH THIS OID"
 
     def Set_Resource(OID: list[int], value):
-        match OID:
-            case MIB.ALERT_TEMP_CPU_OID:
-                if type(value) == float:
-                    MIB.alert_temp_cpu = value
-            case MIB.ALERT_UTIL_CPU_OID:
-                if type(value) == int:
-                    MIB.alert_util_cpu = value
-            case MIB.ALERT_TEMP_GPU_OID:
-                if type(value) == float:
-                    MIB.alert_temp_gpu = value
-            case MIB.ALERT_UTIL_GPU_OID:
-                if type(value) == int:
-                    MIB.alert_util_gpu = value
-            case MIB.ALERT_UTIL_MEM_OID:
-                if type(value) == int:
-                    MIB.alert_util_mem = value
-            case MIB.CPU_UNIT_OID:
-                if type(value) == str:
-                    MIB.alert_temp_cpu = fm.convert_temp(MIB.alert_temp_cpu, MIB.cpu_temp,value)
-                    MIB.cpu_temp = value
-            case MIB.GPU_UNIT_OID:
-                if type(value) == str:
-                    MIB.alert_temp_gpu = fm.convert_temp(MIB.alert_temp_gpu, MIB.gpu_temp,value)
-                    MIB.gpu_temp = value
+        try:
+            match OID:
+                case MIB.ALERT_TEMP_CPU_OID:
+                        MIB.alert_temp_cpu = int(value)
+                case MIB.ALERT_UTIL_CPU_OID:
+                        MIB.alert_util_cpu = int(value)
+                case MIB.ALERT_TEMP_GPU_OID:
+                        MIB.alert_temp_gpu = int(value)
+                case MIB.ALERT_UTIL_GPU_OID:
+                        MIB.alert_util_gpu = int(value)
+                case MIB.ALERT_UTIL_MEM_OID:
+                        MIB.alert_util_mem = int(value)
+                case MIB.CPU_UNIT_OID:
+                        MIB.alert_temp_cpu = fm.convert_temp(MIB.alert_temp_cpu, MIB.cpu_temp,value)
+                        MIB.cpu_temp = value
+                case MIB.GPU_UNIT_OID:
+                        MIB.alert_temp_gpu = fm.convert_temp(MIB.alert_temp_gpu, MIB.gpu_temp,value)
+                        MIB.gpu_temp = value
+        except:
+            print("STRING INSTEAD OF INTEGER FOR OID" + str(OID))
 
+    def get_next_oid(OID: list[int]):
+        oid_list = list(oids.values())
+        oid_index = oid_list.index(OID)
+        if oid_index < -1:
+            return oid_list[0]
+        next_oid_index = (oid_index + 1) % len(oid_list)
+        return oid_list[next_oid_index]
