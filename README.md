@@ -146,13 +146,19 @@ Structura PDU(Protocol Data Unit) Trap
 
 sursa imagini: **https://cdpstudio.com/manual/cdp/snmpio/about-snmp.html**
 
+Porturile folosite:
+    - **`161`**: Trimiterea si primirea pachetelor de tip `GetRequest`,`GetNextRequest`,`SetRequest`.
+    - **`162`**: Trimiterea si primirea Trap-urilor.
 
-                        
-**Bibliografie**
+Interfata realizata cu TKinter
+![image](https://github.com/user-attachments/assets/11a04b2b-7f5b-4ef3-be27-c7197a43b10a)
+
+    
 - https://datatracker.ietf.org/doc/html/rfc1157
 - https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol
 - https://www.manageengine.com/network-monitoring/what-is-snmp.html
 - http://www.tcpipguide.com/free/t_SNMPProtocolBasicRequestResponseInformationPollUsi.htm
 - https://www.satel.com/wp-content/uploads/2017/08/13.-SATELLAR-and-SNMP-Get-SNMP-Set.pdf
 - https://www.site24x7.com/network/what-is-snmp.html
-  
+- http://www.tcpipguide.com/free/t_SNMPProtocolMessagingandMessageFormats.htm
+- https://www.oss.com/asn1/resources/asn1-made-simple/asn1-quick-reference/basic-encoding-rules.html
