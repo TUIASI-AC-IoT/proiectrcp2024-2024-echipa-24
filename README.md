@@ -146,10 +146,10 @@ Structura PDU(Protocol Data Unit) Trap
 
 sursa imagini: **https://cdpstudio.com/manual/cdp/snmpio/about-snmp.html**
 
-Porturile folosite:
-    - **`161`**: Trimiterea si primirea pachetelor de tip `GetRequest`,`GetNextRequest`,`SetRequest`.
-   
-    - **`162`**: Trimiterea si primirea Trap-urilor.
+Porturile folosite :
+- **`161`**: Trimiterea si primirea pachetelor de tip `GetRequest`,`GetNextRequest`,`SetRequest`.
+- **`162`**: Trimiterea si primirea Trap-urilor.
+ 
 
 Interfata realizata cu TKinter
 ![image](https://github.com/user-attachments/assets/11a04b2b-7f5b-4ef3-be27-c7197a43b10a)
